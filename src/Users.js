@@ -41,7 +41,7 @@ const Users = ({ users, createUser, deleteUser, things, removeThingFromUser })=>
 export default connect (
   (state)=> {
     return {
-      things: state.thing, 
+      things: state.things, 
       users: state.users
     }
   },
@@ -59,4 +59,4 @@ export default connect (
       }
     }
   }
-)(Users)
+)(Users);

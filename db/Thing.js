@@ -11,11 +11,7 @@ const Thing = conn.define("thing", {
     },
   },
   ranking: {
-    type: INTEGER,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
+    type: INTEGER
   },
 });
 

@@ -2,6 +2,8 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import axios from 'axios';
+const { faker } = require("@faker-js/faker");
+
 
 const initialState = {
   view: window.location.hash.slice(1),
@@ -65,10 +67,10 @@ const deleteThing = (thing)=> {
 };
 const createUser = (name)=> {
   return async(dispatch) => {
-      const user = await axios.post('/api/users', {
+      const response = await axios.post('/api/users', {
           name: `${faker.name.firstName()} ${faker.name.lastName()}`
       });
-      user = response.data;
+      const user = response.data;
       dispatch({
           type: 'CREATE_USER',
           user
