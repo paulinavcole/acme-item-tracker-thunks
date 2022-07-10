@@ -8,7 +8,6 @@ const Thing = conn.define('thing', {
   },
   ranking: {
     type: INTEGER,
-    defaultValue: 1
   },
 });
 

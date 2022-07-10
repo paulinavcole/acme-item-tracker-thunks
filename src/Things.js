@@ -63,6 +63,5 @@ export default connect(
         dispatch(deleteThing(thing));
       }
     };
-
   }
 )(Things);

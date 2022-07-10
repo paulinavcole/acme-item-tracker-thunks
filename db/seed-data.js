@@ -17,7 +17,7 @@ function createRandomThing() {
   };
 }
 
-Array.from({ length: 5 }).forEach(() => USERS.push(createRandomUser()));
-Array.from({ length: 10 }).forEach(() => THINGS.push(createRandomThing()));
+Array.from({ length: 10 }).forEach(() => USERS.push(createRandomUser()));
+Array.from({ length: 20 }).forEach(() => THINGS.push(createRandomThing()));
 
 module.exports = { USERS, THINGS, createRandomThing, createRandomUser };

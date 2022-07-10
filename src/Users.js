@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateThing, createUser, deleteUser } from './store'
+import { updateThing, createUser, deleteUser, updateRanking } from './store';
 
-const Users = ({ users, createUser, deleteUser, things, removeThingFromUser })=> {
+const Users = ({ users, createUser, deleteUser, things, removeThingFromUser, updateRanking })=> {
   return (
     <div>
       <h1>Users</h1>
@@ -14,7 +14,8 @@ const Users = ({ users, createUser, deleteUser, things, removeThingFromUser })=>
               <li key={ user.id }>
                 { user.name } rank { user.ranking }
                 <button onClick={ ()=> deleteUser(user)}>x</button>
-
+                <button onClick={()=> updateRanking(user, -1)}>-</button>
+                <button onClick={()=> updateRanking(user, 1)}>+</button>
                 <ul>
                 {
                   things.filter( thing => thing.userId === user.id)
@@ -54,9 +55,13 @@ export default connect (
         dispatch(deleteUser(user));
       },
       removeThingFromUser : (thing,userId)=>{
-        thing = {...thing, userId: null}
+        thing = {...thing, userId: null};
         dispatch(updateThing(thing));
+      },
+      updateRanking: (user, rank) => {
+        user = {...user, ranking: user.ranking + rank};
+        dispatch(updateRanking(user));
       }
-    }
+    };
   }
 )(Users);
