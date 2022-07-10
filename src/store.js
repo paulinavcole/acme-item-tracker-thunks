@@ -65,7 +65,7 @@ const deleteThing = (thing)=> {
     dispatch({ type: 'DELETE_THING', thing });
   };
 };
-const createUser = (name)=> {
+const createUser = ()=> {
   return async(dispatch) => {
       const response = await axios.post('/api/users', {
           name: `${faker.name.firstName()} ${faker.name.lastName()}`
@@ -83,10 +83,42 @@ const deleteUser = (user) => {
     dispatch({ type: 'DELETE_USER', user});
   }
 }
+const createThing = () => {
+  return async (dispatch) => {
+    const response = await axios.post("/api/things", { name: faker.commerce.product(), ranking: 1, });
+    const thing = response.data;
+    dispatch({ type: "CREATE_THING", thing });
+  };
+};
+const loadData = () =>{
+  return async(dispatch) =>{
+    const responses = await Promise.all([
+      axios.get('/api/users'),
+      axios.get('/api/things'),
+    ]);
+    dispatch({
+      type: 'SET_USERS',
+      users: responses[0].data
+    });
+    dispatch({
+      type: 'SET_THINGS',
+      things: responses[1].data
+    });
+  }
+}
+const updateRanking = (user) =>{
+  return async(dispatch) =>{
+    user = (await axios.put(`/api/users/${user.id}`, user)).data;
+    dispatch({
+      type: 'UPDATE_USER',
+      user
+    })
+  }
+}
 
 const store = createStore(reducer, applyMiddleware(logger, thunk));
 
-export { deleteThing, updateThing, createUser, deleteUser };
+export { deleteThing, updateThing, createUser, deleteUser, createThing, loadData, updateRanking };
 
 export default store;
 

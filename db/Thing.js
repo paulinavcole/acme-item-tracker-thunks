@@ -1,17 +1,14 @@
-const {conn} = require("./conn");
+const { conn } = require('./conn');
 const { STRING, INTEGER } = conn.Sequelize;
-const {User} = require('./User');
+const { User } = require('./User');
 
-const Thing = conn.define("thing", {
+const Thing = conn.define('thing', {
   name: {
     type: STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
   },
   ranking: {
-    type: INTEGER
+    type: INTEGER,
+    defaultValue: 1
   },
 });
 
@@ -21,4 +18,4 @@ Thing.addHook('beforeValidate', (thing) => {
   }
 });
 
-module.exports = {Thing};
+module.exports = { Thing };

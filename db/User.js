@@ -1,5 +1,5 @@
-const { conn } = require("./conn");
-const { Thing } = require("./Thing");
+const { conn } = require('./conn');
+const { Thing } = require('./Thing');
 const { STRING, INTEGER } = conn.Sequelize;
 
 const User = conn.define('user', {
