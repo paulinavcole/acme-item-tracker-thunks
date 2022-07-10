@@ -7,7 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "build:dev": "npm run build -- --watch --mode=development",
-    "start:dev": "nodemon server --ignore src/ --ignore dist/ & npm run build:dev"
+    "start": "node server.js",
+    "start:dev": "npm run start-server & npm run build:dev",
+    "start-server": "nodemon server --ignore dist --ignore src",
+    "seed": "node seeder.js"
   },
   "keywords": [],
   "author": "",
