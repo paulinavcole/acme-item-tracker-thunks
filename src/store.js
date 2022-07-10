@@ -63,10 +63,28 @@ const deleteThing = (thing)=> {
     dispatch({ type: 'DELETE_THING', thing });
   };
 };
+const createUser = (name)=> {
+  return async(dispatch) => {
+      const user = await axios.post('/api/users', {
+          name: `${faker.name.firstName()} ${faker.name.lastName()}`
+      });
+      user = response.data;
+      dispatch({
+          type: 'CREATE_USER',
+          user
+      });
+  };
+};
+const deleteUser = (user) => {
+  return async(dispatch)=> {
+    await axios.delete(`/api/users/${user.id}`);
+    dispatch({ type: 'DELETE_USER', user});
+  }
+}
 
 const store = createStore(reducer, applyMiddleware(logger, thunk));
 
-export { deleteThing, updateThing };
+export { deleteThing, updateThing, createUser, deleteUser };
 
 export default store;
 

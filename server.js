@@ -1,4 +1,6 @@
-const { conn, User, Thing } = require('./db');
+const { seeder } = require('./db');
+const { User } = require('./db/User');
+const { Thing } = require('./db/Thing');
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -78,13 +80,7 @@ app.get('/api/users', async(req, res, next)=> {
   catch(ex){
     next(ex);
   }
-});
-
-app.use((err, req, res, next)=> {
-  console.log(err);
-  res.status(500).send(err);
-});
-
+})
 
 const port = process.env.PORT || 3000;
 
@@ -92,23 +88,7 @@ app.listen(port, ()=> console.log(`listening on port ${port}`));
 
 const init = async()=> {
   try {
-    await conn.sync({ force: true });
-    const [moe, larry, lucy, ethyl] = await Promise.all(
-      ['moe', 'larry', 'lucy', 'ethyl'].map( name => User.create({ name }))
-    );
-    const [foo, bar, bazz, quq, fizz] = await Promise.all(
-      ['foo', 'bar', 'bazz', 'quq', 'fizz'].map( name => Thing.create({ name }))
-    );
-
-    foo.userId = moe.id;
-    bar.userId = lucy.id
-    bazz.userId = lucy.id
-
-    await Promise.all([
-      foo.save(),
-      bar.save(),
-      bazz.save()
-    ]);
+    await seeder()
   }
   catch(ex){
     console.log(ex);

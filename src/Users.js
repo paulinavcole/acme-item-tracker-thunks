@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
-
+import { updateThing, createUser, deleteUser } from './store'
 
 const Users = ({ users, createUser, deleteUser, things, removeThingFromUser })=> {
   return (
@@ -15,6 +14,7 @@ const Users = ({ users, createUser, deleteUser, things, removeThingFromUser })=>
               <li key={ user.id }>
                 { user.name } rank { user.ranking }
                 <button onClick={ ()=> deleteUser(user)}>x</button>
+
                 <ul>
                 {
                   things.filter( thing => thing.userId === user.id)
@@ -38,30 +38,25 @@ const Users = ({ users, createUser, deleteUser, things, removeThingFromUser })=>
   );
 }
 
-const mapStateToProps = (state)=> {
-  return {
-    users: state.users,
-    things: state.things
-  };
-}
-
-const mapDispatch = (dispatch)=> {
-  return {
-    createUser: async()=> {
-      const user = (await axios.post('/api/users', {name: Math.random()})).data;
-      dispatch({ type: 'CREATE_USER', user});
-      //hint
-      //dispatch(createUser({name: Math.random()}));
-    },
-    removeThingFromUser: async(thing)=> {
-      thing = {...thing, userId: null}
-      const updatedThing = (await axios.put(`/api/things/${thing.id}`, thing)).data
-      dispatch({ type: 'UPDATE_THING', thing: updatedThing});
-    },
-    deleteUser: async(user)=> {
-      await axios.delete(`/api/users/${user.id}`);
-      dispatch({ type: 'DELETE_USER', user});
-    },
-  };
-}
-export default connect(mapStateToProps, mapDispatch)(Users);
+export default connect (
+  (state)=> {
+    return {
+      things: state.thing, 
+      users: state.users
+    }
+  },
+  (dispatch)=> {
+    return {
+      createUser: ()=> {
+        dispatch(createUser());
+      },
+      deleteUser: (user)=> {
+        dispatch(deleteUser(user));
+      },
+      removeThingFromUser : (thing,userId)=>{
+        thing = {...thing, userId: null}
+        dispatch(updateThing(thing));
+      }
+    }
+  }
+)(Users)
