@@ -17,22 +17,17 @@ Thing.addHook('beforeValidate', (thing) => {
   }
 });
 
-//attempt to solve final feature
-// Thing.addHook('beforeCreate', async (thing) => {
-//   try {
-//       const result = await Thing.findAll({
-//           where: {
-//               thingId: thing.id
-//           }
-//       });
-//       if(result.length === 3) {
-//           throw new Error(`Cannot create more instances for ${instance.thingId}`);
-//       }
-//   }
-//   catch(e) {
-//       throw e;
-               
-//   }
-// });
+Thing.addHook('beforeUpdate', async (thing) => {
+    const result = await Thing.findAll({
+        where: {
+            userId: thing.userId
+        }
+    });
+      if(result.length === 3) {
+          throw new Error('Cannot create more instances');
+      }
+    return             
+  }
+);
 
 module.exports = { Thing };
